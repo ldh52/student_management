@@ -4,7 +4,8 @@ import org.fastcampus.student_management.application.course.CourseService;
 import org.fastcampus.student_management.application.course.dto.CourseInfoDto;
 import org.fastcampus.student_management.application.student.StudentService;
 import org.fastcampus.student_management.application.student.dto.StudentInfoDto;
-import org.fastcampus.student_management.repo.CourseRepository;
+import org.fastcampus.student_management.repo.CourseJdbcCommandRepository;
+import org.fastcampus.student_management.repo.CourseCommandRepositoryImpl;
 import org.fastcampus.student_management.repo.StudentRepository;
 import org.fastcampus.student_management.ui.UserInputType;
 import org.fastcampus.student_management.ui.course.CourseController;
@@ -16,10 +17,11 @@ public class Main {
 
     public static void main(String[] args) {
         StudentRepository studentRepository = new StudentRepository();
-        CourseRepository courseRepository = new CourseRepository();
+        CourseCommandRepositoryImpl courseRepository = new CourseCommandRepositoryImpl();
+        CourseJdbcCommandRepository jdbcCommandRepository = new CourseJdbcCommandRepository();
 
         StudentService studentService = new StudentService(studentRepository);
-        CourseService courseService = new CourseService(courseRepository, studentService);
+        CourseService courseService = new CourseService(courseRepository, jdbcCommandRepository, studentService);
 
         CoursePresenter coursePresenter = new CoursePresenter();
         StudentPresenter studentPresenter = new StudentPresenter();
